@@ -22,6 +22,8 @@ joplin.plugins.register({
             const currentNoteBody = note.body as string;
             const replacedBody = currentNoteBody.replace(/(^[ \t]*)- \[[xX]\]/gm, '$1- [ ]');
             await joplin.commands.execute('editor.setText', replacedBody);
+
+            await joplin.data.put(["notes", note.id], null, { body: replacedBody });
         }
     }
 });
