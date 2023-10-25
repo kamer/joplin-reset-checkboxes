@@ -11,6 +11,11 @@ A plugin to reset checkboxes in notes.
 <!-- TOC -->
 
 ## Installation
+### Recommended
+- Open Joplin desktop application
+- Go to Tools > Options > Plugins.
+- Search Reset Checkboxes and you'll see the plugin.
+### Manual
 - Clone project
 - `npm run dist`
 - Copy created jpl file from dist/ directory to plugins directory in your profile.
