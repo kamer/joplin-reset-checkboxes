@@ -13,17 +13,31 @@ joplin.plugins.register({
             name: 'resetCheckboxes',
             label: 'Reset Checkboxes',
             execute: async () => {
-                const selectedNote = await joplin.workspace.selectedNote();
-                await resetCheckboxesOfNote(selectedNote);
+                const selectedText = await joplin.commands.execute('selectedText');
+                if (selectedText) {
+                    await resetCheckboxesOfSelectedText(selectedText);
+                } else {
+                    const selectedNote = await joplin.workspace.selectedNote();
+                    await resetCheckboxesOfNote(selectedNote);
+                }
             }
         });
 
+        async function resetCheckboxesOfSelectedText(text: string){
+            const replacedText = await replaceCheckboxes(text);
+            await joplin.commands.execute('replaceSelection', replacedText);
+        }
+
         async function resetCheckboxesOfNote(note: any) {
             const currentNoteBody = note.body as string;
-            const replacedBody = currentNoteBody.replace(/(^[ \t]*)- \[[xX]\]/gm, '$1- [ ]');
+            const replacedBody = await replaceCheckboxes(currentNoteBody);
             await joplin.commands.execute('editor.setText', replacedBody);
 
             await joplin.data.put(["notes", note.id], null, { body: replacedBody });
+        }
+
+        async function replaceCheckboxes(text: string) {
+            return text.replace(/(^[ \t]*)- \[[xX]\]/gm, '$1- [ ]');
         }
     }
 });
