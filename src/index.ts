@@ -1,5 +1,5 @@
 import joplin from 'api';
-import {MenuItemLocation} from "../api/types";
+import {MenuItemLocation, ToolbarButtonLocation} from "../api/types";
 
 joplin.plugins.register({
     onStart: async function () {
@@ -14,6 +14,8 @@ joplin.plugins.register({
             'resetCheckboxes',
             MenuItemLocation.EditorContextMenu,
         );
+
+        await joplin.views.toolbarButtons.create('ToolbarButtonResetCheckboxes', 'resetCheckboxes', ToolbarButtonLocation.EditorToolbar);
 
         await joplin.commands.register({
             name: 'resetCheckboxes',

@@ -9,5 +9,6 @@
 	"homepage_url": "https://github.com/kamer/joplin-reset-checkboxes",
 	"repository_url": "https://github.com/kamer/joplin-reset-checkboxes",
 	"keywords": [
-		"joplin", "checkboxes", "joplin-plugin"]
+		"joplin", "checkboxes", "joplin-plugin"],
+    "platforms": ["desktop", "mobile"]
 }
