@@ -6,7 +6,13 @@ joplin.plugins.register({
         await joplin.views.menuItems.create(
             'ToolsResetCheckboxes',
             'resetCheckboxes',
-            MenuItemLocation.Tools
+            MenuItemLocation.Tools,
+        );
+
+        await joplin.views.menuItems.create(
+            'ContextMenuResetCheckboxes',
+            'resetCheckboxes',
+            MenuItemLocation.EditorContextMenu,
         );
 
         await joplin.commands.register({
