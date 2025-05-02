@@ -40,9 +40,11 @@ joplin.plugins.register({
         async function resetCheckboxesOfNote(note: any) {
             const currentNoteBody = note.body as string;
             const replacedBody = await replaceCheckboxes(currentNoteBody);
-            await joplin.commands.execute('editor.setText', replacedBody);
 
-            await joplin.data.put(["notes", note.id], null, { body: replacedBody });
+            // await joplin.data.put() resets history. That's why selectAll and replace are done.
+            await joplin.commands.execute('editor.execCommand', {name: 'selectAll'})
+            await joplin.commands.execute('replaceSelection', replacedBody);
+            await joplin.commands.execute('focusElement', 'noteBody');
         }
 
         async function replaceCheckboxes(text: string) {
