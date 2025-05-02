@@ -20,6 +20,7 @@ joplin.plugins.register({
         await joplin.commands.register({
             name: 'resetCheckboxes',
             label: 'Reset Checkboxes',
+            iconName: 'far fa-square',
             execute: async () => {
                 const selectedText = await joplin.commands.execute('selectedText');
                 if (selectedText) {
