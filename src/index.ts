@@ -41,10 +41,18 @@ joplin.plugins.register({
             const currentNoteBody = note.body as string;
             const replacedBody = await replaceCheckboxes(currentNoteBody);
 
-            // await joplin.data.put() resets history. That's why selectAll and replace are done.
-            await joplin.commands.execute('editor.execCommand', {name: 'selectAll'})
-            await joplin.commands.execute('replaceSelection', replacedBody);
-            await joplin.commands.execute('focusElement', 'noteBody');
+            const codeView = await joplin.settings.globalValue("editor.codeView");
+            if(codeView === true) {
+                // await joplin.data.put() resets history. That's why selectAll and replace are done.
+                await joplin.commands.execute('editor.execCommand', {name: 'selectAll'})
+                await joplin.commands.execute('replaceSelection', replacedBody);
+                await joplin.commands.execute('focusElement', 'noteBody');
+            } else {
+                // selectAll -> replaceSelection flow breaks newlines in the WYSIWYG editor.
+                // Also, history is not resetted in this editor. So, we can safely use setText.
+                await joplin.commands.execute('editor.setText', replacedBody);
+                await joplin.data.put(["notes", note.id], null, { body: replacedBody });
+            }
         }
 
         async function replaceCheckboxes(text: string) {
